@@ -86,6 +86,18 @@ class GetUI(object):
         uis = self.get_uis_by_ocr(text, min_hit, is_update)
         return uis[0] if uis else None
 
+    def get_ui_by_ocr_delay(self, text, min_hit=None, is_update=True):
+        import time
+        for i in range(1, 5): # 根据因子迭代
+            time.sleep(5)
+            ui = self.get_ui_by_ocr(text, min_hit, is_update)
+
+            if ui != None:      # 确定第一个因子
+                return ui
+
+        print("Timeout")
+        raise
+
     def get_uis_by_ocr(self, text, min_hit=None, is_update=True):
         """
         通过ocr识别获取节点
