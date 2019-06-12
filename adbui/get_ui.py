@@ -97,6 +97,18 @@ class GetUI(object):
 
         raise NameError('在指定时间内没找到指定元素')
 
+    # d.check_ui(get_ui_fun=d.get_ui_by_ocr, get_ui_lambda=lambda f:f(text='微信'), try_num=2, per_try_time=3)
+    def check_ui(self, get_ui_fun, get_ui_lambda, try_num=5, per_try_time=12):
+        import time
+        for i in range(1, try_num): # 根据因子迭代
+            time.sleep(per_try_time)
+            ui = get_ui_lambda(get_ui_fun)
+
+            if ui != None:      # 确定第一个因子
+                return ui
+
+        raise NameError('在指定时间内没找到指定元素')
+
     def get_uis_by_ocr(self, text, min_hit=None, is_update=True):
         """
         通过ocr识别获取节点
