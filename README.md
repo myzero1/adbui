@@ -17,7 +17,7 @@ adbui 所有的功能都是通过 adb 命令，adbui 的特色是可以通过 xp
 ## 说明
 - adbui 当前还在完善，bug 和建议请直接在 github 反馈
 - 主要在 win7，python3 环境使用，其他环境可能有问题
-
+- 在“夜神模拟器”中使用时，请用这个[adb.exe](https://github.com/myzero1/tools/blob/master/adb_1.0.39.exe)替换掉/path/to/Nox/bin下的adb.exe和nox_adb.exe,因为“夜神模拟器”使用的是1.0.36。
 
 ## import and init
     from adbui import Device
