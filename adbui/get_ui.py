@@ -95,8 +95,7 @@ class GetUI(object):
             if ui != None:      # 确定第一个因子
                 return ui
 
-        print("Timeout")
-        raise
+        raise NameError('在指定时间内没找到指定元素')
 
     def get_uis_by_ocr(self, text, min_hit=None, is_update=True):
         """
