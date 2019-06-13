@@ -158,16 +158,17 @@ class GetUI(object):
         :return: 
         """
         import time
+        import pytesseract
         for i in range(1, try_num): # 根据因子迭代
             time.sleep(try_per_sec)
             if is_update:
                 self.__adb_ext.screenshot()  # 获取截图
             image_jpg = self.__get_image_jpg()
 
-
-
-            if ui != None:      # 确定第一个因子
-                return ui
+            result_data = pytesseract.image_to_data(image_jpg, 'chi_sim', '', 0, 'dict')
+            if text in result_data['text']:
+                
+                print('a in the list')
 
         raise NameError('在指定时间内没找到指定元素')
 
