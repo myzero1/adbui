@@ -147,7 +147,7 @@ class GetUI(object):
                 uis.append(ui)
         return uis
 
-    def get_uis_by_ocr_range_try(self, text, is_update=True, range=None, try_num=5, try_per_sec=12):
+    def get_uis_by_ocr_range_try(self, text, is_update=True, ranges=None, try_num=5, try_per_sec=12):
         """
         通过ocr识别获取节点
         :param text: 查找的文本
@@ -159,7 +159,8 @@ class GetUI(object):
         """
         import time
         import pytesseract
-        for i in range(1, try_num): # 根据因子迭代
+
+        for i in range(try_num): # 根据因子迭代
             time.sleep(try_per_sec)
             if is_update:
                 self.__adb_ext.screenshot()  # 获取截图
@@ -170,7 +171,7 @@ class GetUI(object):
                 
                 print('a in the list')
 
-        raise NameError('在指定时间内没找到指定元素')
+        # raise NameError('在指定时间内没找到指定元素')
 
     def get_text_by_ocr(self, ui=None, rect=None, is_update=False):
         pass
