@@ -22,14 +22,17 @@ img_path = pwd+'\\temp_12700162001.png'
 print(img_path)
 
 # image = Image.open(img_path).crop((40, 1150,200, 1210))
-image = Image.open(img_path).crop((40, 1150,720, 1210))
+# image = Image.open(img_path).crop((40, 1150,720, 1210))
+image = Image.open(img_path)
 image.save(pwd+'\\temp_test1.png')
 image = image.convert('1', dither=Image.NONE)
 image.save(pwd+'\\temp_test2.png')
-image = image.convert('RGB')
-image = ImageOps.invert(image)
-image.save(pwd+'\\temp_test3.png')
-print(tesserocr.image_to_text(image, 'chi_sim'))  # print ocr text from image
+text = tesserocr.image_to_text(image, 'chi_sim')
+# image = image.convert('RGB')
+# image = ImageOps.invert(image)
+# image.save(pwd+'\\temp_test3.png')
+# text = text + "\n" + tesserocr.image_to_text(image, 'chi_sim')
+print(text)  # print ocr text from image
 
 
 #------------------eg--------------------
