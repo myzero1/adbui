@@ -126,7 +126,7 @@ class GetUI(object):
         text_list = list(text)
         min_hit = min_hit if min_hit else len(text_list)  # 如果min hit没有指定，使用min text的长度
         uis = []
-        print(ocr_result['items'])
+
         for item in ocr_result['items']:
             same_count = 0
             item_string = item['itemstring']
