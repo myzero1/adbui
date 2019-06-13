@@ -146,6 +146,30 @@ class GetUI(object):
                 uis.append(ui)
         return uis
 
+    def get_uis_by_ocr_range_try(self, text, is_update=True, range=None, try_num=5, try_per_sec=12):
+        """
+        通过ocr识别获取节点
+        :param text: 查找的文本
+        :param is_update: 是否重新获取截图
+        :param range: ocr区域（0,0,100,100）
+        :param try_num: 尝试的次数
+        :param try_per_sec: 每次尝试的间隔秒数
+        :return: 
+        """
+        import time
+        for i in range(1, try_num): # 根据因子迭代
+            time.sleep(try_per_sec)
+            if is_update:
+                self.__adb_ext.screenshot()  # 获取截图
+            image_jpg = self.__get_image_jpg()
+
+
+
+            if ui != None:      # 确定第一个因子
+                return ui
+
+        raise NameError('在指定时间内没找到指定元素')
+
     def get_text_by_ocr(self, ui=None, rect=None, is_update=False):
         pass
 
