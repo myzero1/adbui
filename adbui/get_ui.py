@@ -110,31 +110,41 @@ class GetUI(object):
         raise NameError('在指定时间内没找到指定元素')
 
     def get_uis_by_ocr(self, text, min_hit=None, is_update=True):
-        raise NameError('在指定时间内没找到指定元素')
-
-    def get_uis_by_ocr_range_try(self, text, is_update=True, range=None, try_num=5, try_per_sec=12):
         """
         通过ocr识别获取节点
         :param text: 查找的文本
+        :param min_hit: 设置查找文本的最小匹配数量
         :param is_update: 是否重新获取截图
-        :param range: ocr区域（0,0,100,100）
-        :param try_num: 尝试的次数
-        :param try_per_sec: 每次尝试的间隔秒数
         :return: 
         """
-        import time
-        for i in range(1, try_num): # 根据因子迭代
-            time.sleep(try_per_sec)
-            if is_update:
-                self.__adb_ext.screenshot()  # 获取截图
-            image_jpg = self.__get_image_jpg()
+        if self.ocr is None:
+            raise NameError('ocr 功能没有初始化.请到 adbui 页面查看如何使用。\nhttps://github.com/hao1032/adbui')
+        if is_update:
+            self.__adb_ext.screenshot()  # 获取截图
+        image_jpg = self.__get_image_jpg()
+        ocr_result = self.ocr.get_result_image(image_jpg)
+        text_list = list(text)
+        min_hit = min_hit if min_hit else len(text_list)  # 如果min hit没有指定，使用min text的长度
+        uis = []
+        for item in ocr_result['items']:
+            same_count = 0
+            item_string = item['itemstring']
+            item_string_list = list(item_string)
 
+            # 计算 text_list 和 item_string_list 中相同元素的数量
+            for char in text_list:
+                if char in item_string_list:
+                    item_string_list.pop(item_string_list.index(char))
+                    same_count += 1
 
-
-            if ui != None:      # 确定第一个因子
-                return ui
-
-        raise NameError('在指定时间内没找到指定元素')
+            if same_count >= min_hit:
+                item_coord = item['itemcoord']
+                ui = UI(self.__adb_ext, item_coord['x'], item_coord['y'],
+                        item_coord['x'] + item_coord['width'], item_coord['y'] + item_coord['height'],
+                        item_coord['width'], item_coord['height'])
+                ui.text = item_string
+                uis.append(ui)
+        return uis
 
     def get_text_by_ocr(self, ui=None, rect=None, is_update=False):
         pass
