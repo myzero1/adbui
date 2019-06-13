@@ -18,6 +18,32 @@ adbui 所有的功能都是通过 adb 命令，adbui 的特色是可以通过 xp
 - adbui 当前还在完善，bug 和建议请直接在 github 反馈
 - 主要在 win7，python3 环境使用，其他环境可能有问题
 - 在“夜神模拟器”中使用时，请用这个[adb.exe](https://github.com/myzero1/tools/blob/master/adb_1.0.39.exe)替换掉/path/to/Nox/bin下的adb.exe和nox_adb.exe,因为“夜神模拟器”使用的是1.0.36。
+- 安装OCR字符识别库Tesseract  参考https://blog.csdn.net/qianbin3200896/article/details/82892805 和 https://digi.bib.uni-mannheim.de/tesseract/?C=M;O=D。添加path运行Tesseract -v；
+- ```
+pip install Pillow==5.2.0
+pip install pytesseract==0.2.4
+
+--------------------------
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+ 
+import pytesseract
+from PIL import Image
+ 
+# open image
+image = Image.open('2.jpg')
+code = pytesseract.image_to_string(image, lang='chi_sim')
+print(code)
+
+--------------
+
+image = Image.open(img_path)
+image.save(pwd+'\\temp_test1.png')
+image = image.convert('1', dither=Image.NONE)
+image.save(pwd+'\\temp_test2.png')
+text = tesserocr.image_to_text(image, 'chi_sim')
+
+```
 
 ## import and init
     from adbui import Device
