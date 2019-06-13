@@ -6,6 +6,30 @@ sys.path.insert(0, file_path)
 from adbui import Device
 
 #------------------research----------------------
+import tesserocr
+from PIL import Image
+from PIL import ImageOps
+import os,sys
+
+print(tesserocr.tesseract_version())  # print tesseract-ocr version
+print("-----------------\n")
+print(tesserocr.get_languages())  # prints tessdata path and list of available languages
+print("-----------------\n")
+
+pwd = os.getcwd()+'\\wool'
+img_path = pwd+'\\temp_12700162001.png'
+
+print(img_path)
+
+# image = Image.open(img_path).crop((40, 1150,200, 1210))
+image = Image.open(img_path).crop((40, 1150,720, 1210))
+image.save(pwd+'\\temp_test1.png')
+image = image.convert('1', dither=Image.NONE)
+image.save(pwd+'\\temp_test2.png')
+image = image.convert('RGB')
+image = ImageOps.invert(image)
+image.save(pwd+'\\temp_test3.png')
+print(tesserocr.image_to_text(image, 'chi_sim'))  # print ocr text from image
 
 
 #------------------eg--------------------
