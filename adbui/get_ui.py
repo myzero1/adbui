@@ -167,11 +167,14 @@ class GetUI(object):
                 self.__adb_ext.screenshot()
             image_jpg = self.__get_image_jpg()
 
+            # if ranges != None:
+            #     image_jpg = image_jpg.crop(ranges)
+
             image_jpg = image_jpg.convert('1', dither=Image.NONE)
             result_data = pytesseract.image_to_data(image_jpg, 'chi_sim', '', 0, 'dict')
+            print(result_data['text'])
             
             uis = []
-            print(result_data['text'])
 
             if text in result_data['text']:
                 index = result_data['text'].index(text)
