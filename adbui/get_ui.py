@@ -84,6 +84,7 @@ class GetUI(object):
 
     def get_ui_by_ocr(self, text, min_hit=None, is_update=True):
         uis = self.get_uis_by_ocr(text, min_hit, is_update)
+        print(uis)
         return uis[0] if uis else None
 
     def get_ui_by_ocr_delay(self, text, min_hit=None, is_update=True):
@@ -147,7 +148,7 @@ class GetUI(object):
                 uis.append(ui)
         return uis
 
-    def get_uis_by_ocr_range_try(self, text, is_update=True, ranges=None, try_num=5, try_per_sec=12):
+    def get_ui_by_ocr_range_try(self, text, is_update=True, ranges=None, try_num=5, try_per_sec=12):
         """
         通过ocr识别获取节点
         :param text: 查找的文本
@@ -160,18 +161,33 @@ class GetUI(object):
         import time
         import pytesseract
 
-        for i in range(try_num): # 根据因子迭代
+        for i in range(try_num):
             time.sleep(try_per_sec)
             if is_update:
-                self.__adb_ext.screenshot()  # 获取截图
+                self.__adb_ext.screenshot()
             image_jpg = self.__get_image_jpg()
 
+            image_jpg = image_jpg.convert('1', dither=Image.NONE)
             result_data = pytesseract.image_to_data(image_jpg, 'chi_sim', '', 0, 'dict')
-            if text in result_data['text']:
-                
-                print('a in the list')
+            
+            uis = []
+            print(result_data['text'])
 
-        # raise NameError('在指定时间内没找到指定元素')
+            if text in result_data['text']:
+                index = result_data['text'].index(text)
+                x1 = result_data['left'][index]
+                y1 = result_data['top'][index]
+                x2 = x1 + result_data['width'][index]
+                y2 = y1 + result_data['height'][index]
+
+                ui = UI(self.__adb_ext, x1, y1, x2, y2, result_data['width'][index], result_data['height'][index])
+                ui.text = text
+
+                uis.append(ui)
+
+                return uis[0] if uis else None
+
+        raise NameError('在指定时间内没找到指定元素')
 
     def get_text_by_ocr(self, ui=None, rect=None, is_update=False):
         pass
