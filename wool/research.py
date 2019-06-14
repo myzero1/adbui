@@ -46,7 +46,7 @@ d = Device('127.0.0.1:62001')  # 手机的sn号，如果只有一个手机可以
 # d.init_ocr('10126986', 'AKIDT1Ws34B98MgtvmqRIC4oQr7CBzhEPvCL', 'AAyb3KQL5d1DE4jIMF2f6PYWJvLaeXEk')
 # btn = d.check_ui(get_ui_fun=d.get_ui_by_ocr, get_ui_lambda=lambda f:f(text='注册'), try_num=2, per_try_time=3)
 
-btn = d.get_ui_by_ocr_range_try('登录', True, (40, 1150,720, 1210), 5, 12)
+btn = d.get_ui_by_ocr_range_try('登录', True, (45,1149,197,1199), 5, 12)
 btn.click()
 
 
