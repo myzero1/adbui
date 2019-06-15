@@ -175,7 +175,8 @@ class GetUI(object):
                 y = ranges[1]
 
             image_jpg = image_jpg.convert('1', dither=Image.NONE)
-            result_data = pytesseract.image_to_data(image_jpg, 'chi_sim', '', 0, 'dict')
+            # result_data = pytesseract.image_to_data(image_jpg, 'chi_sim', '', 0, 'dict')
+            result_data = pytesseract.image_to_data(image_jpg, lang='chi_sim', config='--psm 6 --oem 3 -c tessedit_pageseg_mode=6', nice=0, output_type='dict')
             print(result_data['text'])
             
             uis = []
